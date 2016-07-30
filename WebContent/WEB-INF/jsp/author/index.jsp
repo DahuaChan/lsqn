@@ -8,6 +8,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>岭师青年欢迎你</title>
 </head>
+<%
+	if(session.getAttribute("author")==null)
+		response.sendRedirect("index.jsp");
+%>
 <body>
 	<jsp:include page="../commen/head.jsp"></jsp:include>
 	<jsp:include page="../commen/left.jsp"></jsp:include>

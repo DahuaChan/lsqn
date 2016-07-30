@@ -1,0 +1,113 @@
+.from {
+	margin: 0 auto;
+	text-align: center;
+	padding-top: 10px;
+}
+
+.from table {
+	margin: 0 auto;
+	width: 80%;
+	height: 200px;
+	font-size: 20px;
+	text-align: center;
+	border: 1px solid;
+	table-layout: fixed;
+}
+
+.from input {
+	padding: 8px 5px;
+	border: 1px solid #ccc;
+	width: 85%;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	background: #fcfcfc;
+	vertical-align: middle;
+	-moz-box-shadow: inset 0 1px 3px #ddd;
+	-webkit-box-shadow: inset 0 1px 3px #ddd;
+	box-shadow: inset 0 1px 3px #ddd;
+	color: #666;
+}
+
+.from select {
+	padding: 8px 5px;
+	border: 1px solid #ccc;
+	width: 87%;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	background: #fcfcfc;
+	vertical-align: middle;
+	-moz-box-shadow: inset 0 1px 3px #ddd;
+	-webkit-box-shadow: inset 0 1px 3px #ddd;
+	box-shadow: inset 0 1px 3px #ddd;
+	color: #666;
+}
+
+.from td {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.title {
+	float: left;
+	width: 80%;
+	height: 50px;
+}
+
+.title h1 {
+	padding-top: 15px;
+}
+
+.info {
+	text-align: center;
+	border-bottom: 1px solid;
+	float: left;
+	margin-left: 13%;
+	margin-right: 10%;
+	width: 60%;
+}
+
+.info span {
+	float: left;
+}
+
+.content {
+	padding-top: 20px;
+	text-align: left;
+	font-size: medium;
+	float: left;
+	margin-left: 14%;
+	margin-right: 11%;
+	margin-bottom: 10px;
+	width: 50%;
+}
+
+.operation {
+	border-top: 1px solid;
+	padding-top: 25px;
+	margin-left: 13%;
+	margin-right: 10%;
+	width: 60%;
+	float: left;
+}
+
+.operation table {
+	padding-top: 10px;
+	border: none;
+	float: left;
+	text-align: center;
+}
+
+.operation tr {
+	padding-top: 10px;
+	border: none;
+	float: left;
+	text-align: center;
+}
+
+.operation div {
+	float: left;
+	text-align: center;
+}

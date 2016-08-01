@@ -74,7 +74,9 @@
 							<s:if test="#session.admin==null">
 								<li><a href="author_updateInput.action?a_id=${session.author.getA_id() }">编辑资料</a></li>
 								<li><a href="author_updatePasswordInput.action">修改密码</a></li>
-							</s:if>
+							</s:if><s:else>
+								<li><a href="admin_updatePasswordInput.action">修改密码</a></li>								
+							</s:else>
 							<li><a href="./login_logout.action">退出</a></li>
 						</ul>
 					</div>

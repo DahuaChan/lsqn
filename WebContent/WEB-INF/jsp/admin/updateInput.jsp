@@ -9,7 +9,6 @@
 <title>修改管理员</title>
 </head>
 <body>
-	<s:debug></s:debug>
 	<jsp:include page="../commen/head.jsp"></jsp:include>
 	<div>
 		<jsp:include page="../commen/left.jsp"></jsp:include>

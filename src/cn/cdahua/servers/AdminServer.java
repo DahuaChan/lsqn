@@ -56,8 +56,6 @@ public class AdminServer implements IAdminServer {
 	@Override
 	public void update(Admin admin) {
 		adminDao.update(admin);
-		System.out.println(admin.toString());
-
 	}
 
 	@Override

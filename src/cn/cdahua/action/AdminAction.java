@@ -82,10 +82,15 @@ public class AdminAction extends ActionSupport implements ModelDriven<Admin> {
 
 	public String update() {
 		Admin a = adminServer.load(admin.getAdmin_id());
-		a.setAdmin_id(admin.getAdmin_id());
-		a.setAdmin_account(admin.getAdmin_account());
-		a.setAdmin_type(admin.getAdmin_type());
+		if(admin.getAdmin_password() == a.getAdmin_password()){			
+			a.setAdmin_id(admin.getAdmin_id());
+			a.setAdmin_account(admin.getAdmin_account());
+			a.setAdmin_type(admin.getAdmin_type());
+		}else{
+			a.setAdmin_password(admin.getAdmin_password());
+		}
 		adminServer.update(a);
+		ActionContext.getContext().getSession().put("admin", a);
 		ActionContext.getContext().put("url", "/admin_list.action");
 		return ActionUtils.REDIRECT;
 	}
@@ -107,6 +112,10 @@ public class AdminAction extends ActionSupport implements ModelDriven<Admin> {
 		return SUCCESS;
 	}
 
+	public String updatePasswordInput(){
+		return SUCCESS;
+	}
+	
 	@Override
 	public Admin getModel() {
 		if (admin == null)

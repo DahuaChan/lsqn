@@ -121,7 +121,6 @@ public class AuthorAction extends ActionSupport implements ModelDriven<Author> {
 			ActionUtils.setUrl("register.jsp");
 			return ActionUtils.REDIRECT;
 		} else {
-			System.out.println(author);
 			authorServer.add(author);
 			ActionContext.getContext().getSession().put("author", authorServer.loadByEmail(author.getA_email()));
 			ActionUtils.setUrl("author_index.action");

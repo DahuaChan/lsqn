@@ -84,9 +84,9 @@ public class AdminServer implements IAdminServer {
 	public Admin login(Admin admin) {
 		Admin a = this.loadByName(admin.getAdmin_account());
 		if (a == null)
-			throw new MyException("用户名不存在");
+			throw new MyException("用户不存在");
 		if (!a.getAdmin_password().equals(admin.getAdmin_password()))
-			throw new MyException("用户密码不正确");
+			throw new MyException("用户账号或密码不正确");
 		return a;
 	}
 
@@ -95,16 +95,15 @@ public class AdminServer implements IAdminServer {
 		String subject = "岭师青年投稿情况通知";
 		String message = "";
 		if (status == Message.MSGACCEPT)
-			message = "您好！您向岭师青年投送的稿件已被采用，谢谢您对岭师青年的支持，期待您的下次投稿！";
+			message = "您好！您向岭师青年投送的稿件已被采用，谢谢您对岭师青年的支持，期待您的下次投稿~";
 		else if (status == Message.MSGNOTACCEPT)
-			message = "您好，您向岭师青年投送的稿件未通过审核，感谢您对岭师青年的支持，继续加油哦，说不定下次就行了，欢迎下次来稿～";
+			message = "您好，您向岭师青年投送的稿件未通过审核，感谢您对岭师青年的支持，继续加油哦，说不定下次就行了，欢迎下次来稿~";
 		else
 			return;
 		Mail mail = new Mail(receivers, subject, message);
 		Thread t= new Thread(){
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				MailUtil.send(mail);
 			}
 		};

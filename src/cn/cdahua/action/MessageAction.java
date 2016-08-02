@@ -1,6 +1,9 @@
 package cn.cdahua.action;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -197,7 +200,19 @@ public class MessageAction extends ActionSupport implements ModelDriven<Message>
 			return SUCCESS;			
 		}
 	}
-
+	public String readFile() throws IOException{
+		Map<String, String> map = new HashMap<>();
+		for(int i = 0 ; i < ServletActionContext.getRequest().getParameterMap().size();i++){
+			map.put("path"+i, ServletActionContext.getRequest().getParameter("path"+i));
+		}
+		//TODO 对文档进行转换没有完成与显示
+		String result = "{\"success\": 1}";
+		ServletActionContext.getResponse().getWriter().write(result);		
+		return null;
+	}
+	public String readFileList() throws IOException{
+		return SUCCESS;
+	}
 	@Override
 	public Message getModel() {
 		if (message == null)

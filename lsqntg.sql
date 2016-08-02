@@ -3,15 +3,15 @@ create database lsqn;
 use lsqn;
 create table author (
 	a_id int auto_increment primary key,
-	a_email varchar(255),
+	a_email varchar(255) NOT NULL,
 	a_name varchar(255),
 	a_nickname varchar(255),
-	a_password varchar(255)
+	a_password varchar(255) NOT NULL
 );
 create table admin (
 	admin_id int auto_increment primary key,
-	admin_account varchar(255),
-	admin_password varchar(255),
+	admin_account varchar(255) not null,
+	admin_password varchar(255) not null,
 	admin_type int
 );
 create table message (

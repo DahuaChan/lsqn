@@ -1,5 +1,5 @@
-/*可以在这里添加你自己的css*/
+/*可以在这里添加你自己的CSS*/
 img{
-	width: 640px;
-	height: 400px;
+	max-width: 640px;
+	max-height: 400px;
 }

@@ -72,13 +72,14 @@ public class LoginAction extends ActionSupport implements ModelDriven<Admin> {
 	}
 
 	public String login() {
-		//判断验证码
+		// 判断验证码
 		String validNum = ServletActionContext.getRequest().getParameter("validNum");
-		if(validNum == null) validNum = "";
-		if(!validNum.toString().trim().equals(ValidaImageUtil.RANDOM)){
+		if (validNum == null)
+			validNum = "";
+		if (!validNum.toString().trim().equals(ValidaImageUtil.RANDOM)) {
 			throw new MyException("验证码错误");
 		}
-		
+
 		if (admin.getAdmin_account() != null) {
 			admin = adminServer.login(admin);
 			ActionContext.getContext().getSession().put("admin", admin);
@@ -95,13 +96,13 @@ public class LoginAction extends ActionSupport implements ModelDriven<Admin> {
 			return ActionUtils.REDIRECT;
 		}
 	}
-	
-	public String logout(){
+
+	public String logout() {
 		ActionContext.getContext().getSession().clear();
 		return ActionUtils.LOGININPUT;
 	}
-	
-	public String getValidaNumImage() throws IOException{
+
+	public String getValidaNumImage() throws IOException {
 		ImageIO.write(ValidaImageUtil.getNumValidaImage(), "jpg", ServletActionContext.getResponse().getOutputStream());
 		return null;
 	}

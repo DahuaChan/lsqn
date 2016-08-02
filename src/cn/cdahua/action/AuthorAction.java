@@ -85,6 +85,7 @@ public class AuthorAction extends ActionSupport implements ModelDriven<Author> {
 		Author a = authorServer.load(author.getA_id());
 		a.setA_password(Author.DEFAULTPASSWORD);
 		authorServer.update(a);
+		ActionContext.getContext().getSession().replace("author", a);
 		ActionContext.getContext().put("url", "/author_list.action");
 		return ActionUtils.REDIRECT;
 	}

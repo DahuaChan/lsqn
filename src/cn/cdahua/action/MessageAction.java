@@ -73,6 +73,9 @@ public class MessageAction extends ActionSupport implements ModelDriven<Message>
 
 	public String add() throws Exception {
 		messageServer.add(message, ((Author) ActionContext.getContext().getSession().get("author")).getA_id());
+		/*
+		 * 页面打印josn数据，editor.jsp执行回调函数
+		 */
 		String result = "{\"success\": 1}";
 		ServletActionContext.getResponse().getWriter().write(result);
 		return null;
@@ -84,7 +87,7 @@ public class MessageAction extends ActionSupport implements ModelDriven<Message>
 		return SUCCESS;
 	}
 
-	public void update(){
+	private void update(){
 		Message msg = messageServer.load(message.getMsg_id());
 		if (message.getMsg_title() != null && !"".equals(message.getMsg_title())) {
 			msg.setMsg_content(message.getMsg_content());
@@ -96,12 +99,17 @@ public class MessageAction extends ActionSupport implements ModelDriven<Message>
 			messageServer.update(msg, ad.getAdmin_id());
 		else
 			messageServer.update(msg, 0);
+		//判断稿件状态，是否发邮件
 		if(msg.getMsg_status()!=Message.MSGUNCHECK)
 			adminServer.sendMail(authorServer.load(msg.getAuthor().getA_id()).getA_email(),msg.getMsg_status());
 	}
 	
 	public String authorUpdate() throws IOException{
 		update();
+		/**UEditor 
+		 * 返回值为josn数据时，回调函数方起作用
+		 * commen/editor.jsp
+		 */
 		String result = "{\"success\": 1}";
 		ServletActionContext.getResponse().getWriter().write(result);
 		return null;

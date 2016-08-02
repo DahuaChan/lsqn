@@ -26,5 +26,4 @@ create table message (
 	foreign key(admin_id) references admin(admin_id) on delete cascade on update cascade
 );
 use lsqn;
-insert into admin(admin_account,admin_password,admin_type) values("dahua","000000",1);
-insert into author(a_email,a_name,a_nickname,a_password) values("313921056@qq.com","达华","一万年不是尽头","000000");
+insert into admin(admin_account,admin_password,admin_type) values("admin","000000",1);

@@ -67,7 +67,6 @@ public class AdminAction extends ActionSupport implements ModelDriven<Admin> {
 	}
 	
 	public String add() {
-		System.out.println(admin);
 		adminServer.add(admin);
 		ActionContext.getContext().put("url", "/admin_list.action");
 		return ActionUtils.REDIRECT;
@@ -90,13 +89,12 @@ public class AdminAction extends ActionSupport implements ModelDriven<Admin> {
 			a.setAdmin_password(admin.getAdmin_password());
 		}
 		adminServer.update(a);
-		ActionContext.getContext().getSession().put("admin", a);
+		ActionContext.getContext().getSession().replace("admin", a);
 		ActionContext.getContext().put("url", "/admin_list.action");
 		return ActionUtils.REDIRECT;
 	}
 
 	public String delete() {
-		System.out.println(admin.toString());
 		adminServer.delete(admin.getAdmin_id());
 		ActionContext.getContext().put("url", "admin_list.action");
 		return ActionUtils.REDIRECT;

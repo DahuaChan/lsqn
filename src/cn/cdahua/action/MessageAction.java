@@ -1,8 +1,10 @@
 package cn.cdahua.action;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.HashMap;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -24,6 +26,8 @@ import cn.cdahua.servers.IAdminServer;
 import cn.cdahua.servers.IAuthorServer;
 import cn.cdahua.servers.IMessageServer;
 import cn.cdahua.util.ActionUtils;
+import cn.cdahua.util.StringUtil;
+import cn.cdahua.util.Word2htmlUtil;
 
 @SuppressWarnings("serial")
 @Controller("messageAction")
@@ -86,11 +90,11 @@ public class MessageAction extends ActionSupport implements ModelDriven<Message>
 
 	public String updateInput() {
 		BeanUtils.copyProperties(messageServer.load(message.getMsg_id()), message);
-		
+
 		return SUCCESS;
 	}
 
-	private void update(){
+	private void update() {
 		Message msg = messageServer.load(message.getMsg_id());
 		if (message.getMsg_title() != null && !"".equals(message.getMsg_title())) {
 			msg.setMsg_content(message.getMsg_content());
@@ -98,26 +102,26 @@ public class MessageAction extends ActionSupport implements ModelDriven<Message>
 		}
 		msg.setMsg_status(message.getMsg_status());
 		Admin ad = ((Admin) ActionContext.getContext().getSession().get("admin"));
-		if(ad != null)
+		if (ad != null)
 			messageServer.update(msg, ad.getAdmin_id());
 		else
 			messageServer.update(msg, 0);
-		//判断稿件状态，是否发邮件
-		if(msg.getMsg_status()!=Message.MSGUNCHECK)
-			adminServer.sendMail(authorServer.load(msg.getAuthor().getA_id()).getA_email(),msg.getMsg_status());
+		// 判断稿件状态，是否发邮件
+		if (msg.getMsg_status() != Message.MSGUNCHECK)
+			adminServer.sendMail(authorServer.load(msg.getAuthor().getA_id()).getA_email(), msg.getMsg_status());
 	}
-	
-	public String authorUpdate() throws IOException{
+
+	public String authorUpdate() throws IOException {
 		update();
-		/**UEditor 
-		 * 返回值为josn数据时，回调函数方起作用
-		 * commen/editor.jsp
+		/**
+		 * UEditor 返回值为josn数据时，回调函数方起作用 commen/editor.jsp
 		 */
 		String result = "{\"success\": 1}";
 		ServletActionContext.getResponse().getWriter().write(result);
 		return null;
 	}
-	public String adminUpdate(){
+
+	public String adminUpdate() {
 		update();
 		ActionContext.getContext().put("url", "message_list.action");
 		return ActionUtils.REDIRECT;
@@ -134,14 +138,14 @@ public class MessageAction extends ActionSupport implements ModelDriven<Message>
 		Admin admin = (Admin) ActionContext.getContext().getSession().get("admin");
 		if (admin == null) {
 			Author author = (Author) ActionContext.getContext().getSession().get("author");
-			if(author != null){
+			if (author != null) {
 				message.setAuthor(author);
 				ActionContext.getContext().put("msgp", messageServer.authorFindMessage(author.getA_id()));
 				return SUCCESS;
-			}else{
+			} else {
 				return ActionUtils.LOGININPUT;
 			}
-		}else{
+		} else {
 			message.setAdmin(admin);
 			ActionContext.getContext().put("msgp", messageServer.findMessage());
 			return SUCCESS;
@@ -153,14 +157,14 @@ public class MessageAction extends ActionSupport implements ModelDriven<Message>
 		Admin admin = (Admin) ActionContext.getContext().getSession().get("admin");
 		if (admin == null) {
 			Author author = (Author) ActionContext.getContext().getSession().get("author");
-			if(author != null){
+			if (author != null) {
 				message.setAuthor(author);
 				ActionContext.getContext().put("msgp", messageServer.authorFindMessageByIsRead(author.getA_id()));
 				return SUCCESS;
-			}else{
+			} else {
 				return ActionUtils.LOGININPUT;
 			}
-		}else{
+		} else {
 			message.setAdmin(admin);
 			ActionContext.getContext().put("msgp", messageServer.findMessageByIsRead());
 			return SUCCESS;
@@ -172,47 +176,64 @@ public class MessageAction extends ActionSupport implements ModelDriven<Message>
 		Admin admin = (Admin) ActionContext.getContext().getSession().get("admin");
 		if (admin == null) {
 			Author author = (Author) ActionContext.getContext().getSession().get("author");
-			if(author != null){
+			if (author != null) {
 				message.setAuthor(author);
 				ActionContext.getContext().put("msgp", messageServer.authorFindMessageByUnRead(author.getA_id()));
 				return SUCCESS;
-			}else{
+			} else {
 				return ActionUtils.LOGININPUT;
 			}
-		}else{
+		} else {
 			message.setAdmin(admin);
 			ActionContext.getContext().put("msgp", messageServer.findMessageByUnRead());
 			return SUCCESS;
 		}
 	}
-	
+
 	public String view() {
 		Author a = (Author) ActionContext.getContext().getSession().get("author");
 		Message m = messageServer.load(message.getMsg_id());
-		if(a!=null){
-			if(m.getAuthor().getA_id() == a.getA_id()){
+		if (a != null) {
+			if (m.getAuthor().getA_id() == a.getA_id()) {
 				BeanUtils.copyProperties(m, message);
 				return SUCCESS;
 			}
 			throw new MyException("您不是该文章的主人");
-		}else{
+		} else {
 			BeanUtils.copyProperties(m, message);
-			return SUCCESS;			
+			return SUCCESS;
 		}
 	}
-	public String readFile() throws IOException{
-		Map<String, String> map = new HashMap<>();
-		for(int i = 0 ; i < ServletActionContext.getRequest().getParameterMap().size();i++){
-			map.put("path"+i, ServletActionContext.getRequest().getParameter("path"+i));
+
+	public String readFile() throws IOException {
+		List<String> lists = new ArrayList<>();
+		for (int i = 0; i < ServletActionContext.getRequest().getParameterMap().size(); i++) {
+			String path = URLDecoder.decode(ServletActionContext.getRequest().getParameter("path" + i), "UTF-8");
+			lists.add(path.split("\\?")[1]);
 		}
-		//TODO 对文档进行转换没有完成与显示
-		String result = "{\"success\": 1}";
-		ServletActionContext.getResponse().getWriter().write(result);		
-		return null;
+		// 1、生成html文件
+		if(lists.size()!=0){
+			Word2htmlUtil.convert2Html(lists);
+		// 2、将值返回给回调函数
+			String result = "{\"success\": 1}";
+			ServletActionContext.getResponse().getWriter().write(result);
+			return null;
+		} else {
+			String result = "{\"fail\": 1}";
+			ServletActionContext.getResponse().getWriter().write(result);
+			return null;			
+		}
 	}
-	public String readFileList() throws IOException{
+
+	public String readFileList() throws IOException {
+		String jsonData = URLDecoder.decode(ServletActionContext.getRequest().getParameter("jsonData"), "UTF-8");
+		if(jsonData.equals("undefine"))
+				throw new MyException("没有附件");
+		Map<String,String> fileMap = StringUtil.readFileURLSplit(jsonData);
+		ActionContext.getContext().put("filemap", fileMap);
 		return SUCCESS;
 	}
+
 	@Override
 	public Message getModel() {
 		if (message == null)

@@ -1,5 +1,8 @@
 package cn.cdahua.test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -11,6 +14,8 @@ import cn.cdahua.servers.AuthorServer;
 import cn.cdahua.servers.IMessageServer;
 import cn.cdahua.servers.MessageServer;
 import cn.cdahua.util.MailUtil;
+import cn.cdahua.util.StringUtil;
+import cn.cdahua.util.Word2htmlUtil;
 
 public class LsqnTest {
 
@@ -31,16 +36,12 @@ public class LsqnTest {
 
 	@Test
 	public void test2() {
-		BeanFactory factory = new ClassPathXmlApplicationContext("beans.xml");
-		AuthorServer as = (AuthorServer) factory.getBean("authorServer");
-		Author a = new Author();
-		a.setA_email("313921056@qq.com");
-		a.setA_nickname("华仔");
-		a.setA_name("达华");
-		a.setA_password("1234");
-		a.setA_id(2);
-		as.delete(2);
-		System.out.println(a.toString());
+		String a = "{\"path0\":\"附件：团学系统评优申报表.docx?http://localhost:8080/lsqn/upload/file/20160802/1470135175983041442.docx\",\"path1\":\"审核项目2015-2016（校团委版）.doc?http://localhost:8080/lsqn/upload/file/20160802/1470135175983020268.doc\",\"path2\":\"审核项目2015-2016（学生会版）.docx?http://localhost:8080/lsqn/upload/file/20160802/1470141465808044898.docx\"}";
+		String b = "D:/test/123.doc";
+		List<String> lists = new ArrayList<>();
+		lists.add(b);
+		Word2htmlUtil.convert2Html(lists);
+		System.out.println("test:"+b);
 	}
 
 	@Test

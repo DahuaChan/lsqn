@@ -54,10 +54,10 @@
 		var jsonData ='{';
 		for (var i = 0; i < obj.length; i++){
 			if(i+1 == obj.length){
-				jsonData = jsonData+'"path'+i+'":"'+obj[i]+'"';
+				jsonData = jsonData+'"path'+i+'":"'+encodeURI(obj[i].text)+'?'+obj[i]+'"';
 			}
 			else{
-				jsonData = jsonData+'"path'+i+'":"'+obj[i]+'",';
+				jsonData = jsonData+'"path'+i+'":"'+encodeURI(obj[i].text)+'?'+obj[i]+'",';
 			}
 		}
 		jsonData = jsonData +'}';
@@ -65,15 +65,18 @@
 	}
 	
 	function readFile() {
+		var json = getUploadFileName();
+		var jsonStr = encodeURI(JSON.stringify(json));
+		if(jsonStr='{}')
+			return;
 		$.get("${pageContext.request.contextPath}/message_readFile.action",
-				getUploadFileName()
+				json
 				,
 				function(result) {
 					if (result.success) {
-					//location.href = "${pageContext.request.contextPath}/message_readFile.action";
-					alert("修改成功！");
-					} else {
-						alert("修改失败！");
+						location.href = "${pageContext.request.contextPath}/message_readFileList.action?jsonData="+jsonStr;
+					}else{
+						return;
 					}
 				},
 				"json"

@@ -67,8 +67,9 @@
 	function readFile() {
 		var json = getUploadFileName();
 		var jsonStr = encodeURI(JSON.stringify(json));
-		if(jsonStr='{}')
+		if(jsonStr == '{}'){
 			return;
+		}
 		$.get("${pageContext.request.contextPath}/message_readFile.action",
 				json
 				,

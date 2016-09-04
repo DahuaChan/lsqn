@@ -53,13 +53,10 @@ public class Word2htmlUtil {
 					convertDocx2Html(path, outPutFolder + outFileName);										
 				}
 			} catch (TransformerException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ParserConfigurationException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
